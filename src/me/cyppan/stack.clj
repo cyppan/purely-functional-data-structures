@@ -28,6 +28,15 @@
         (update 0 11)
         (update 4 55)))
   ;; => 11 2 3 4 55
+
+  (doseq [suffix (suffixes (list 1 2 3 4))]
+    (dump suffix))
+  ;; =>
+  ;; 1 2 3 4
+  ;; 2 3 4
+  ;; 3 4
+  ;; 4
+  ;;
   )
 
 
@@ -77,6 +86,17 @@
   (if (zero? i)
     (add (tail s) el)
     (add (update (tail s) (dec i) el) (head s))))
+
+(defn suffixes
+  "Given a stack, returns a sequence of all the stack suffixes in decreasing order
+  Ex: 1 2 3 4 => 1 2 3 4, 2 3 4, 3 4, 4, ()
+  O(n) in time and space thanks to data sharing"
+  [s]
+  (letfn [(helper [s res]
+            (if (is-empty s)
+              (conj res s)
+              (recur (tail s) (conj res s))))]
+    (helper s [])))
 
 (defn dump
   "dequeue the stack printing elements along the way"
