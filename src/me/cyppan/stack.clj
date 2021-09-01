@@ -75,7 +75,7 @@
   "update the stack replacing the i element"
   [s i el]
   (if (zero? i)
-    (add (rest s) el)
+    (add (tail s) el)
     (add (update (tail s) (dec i) el) (head s))))
 
 (defn dump
