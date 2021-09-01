@@ -9,8 +9,8 @@
 (comment
   (dump
     (++
-      '(1 2)
-      '(3 4)))
+      (list 1 2)
+      (list 3 4)))
   ;; => 1 2 3 4
 
   (dump
@@ -24,7 +24,7 @@
   ;; => 1 2 3 4
 
   (dump
-    (-> '(1 2 3 4 5)
+    (-> (list 1 2 3 4 5)
         (update 0 11)
         (update 4 55)))
   ;; => 11 2 3 4 55
@@ -58,7 +58,7 @@
   (is-empty [this] (empty? this))
   (add [this el] (conj this el))
   (head [[h & _]] h)
-  (tail [[_ & t]] (or t '())))
+  (tail [[_ & t]] (or t (list))))
 
 
 ;; Stack API (implementation-independent)
