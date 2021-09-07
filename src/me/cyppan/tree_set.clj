@@ -2,6 +2,7 @@
   (:require [clojure.pprint :as pprint]
             [clojure.walk :as walk]))
 
+;; Usage
 (comment
   (def t (-> (new-tree-set 5)
              (insert 3)
@@ -30,7 +31,9 @@
 (defn new-tree-set [value & {:keys [left right]}]
   (->TreeSet left value right))
 
-(defn dump [tree]
+(defn dump
+  "pretty print the tree as a recursive map"
+  [tree]
   (pprint/pprint
     (walk/postwalk (fn [form]
                      (if (instance? TreeSet form)
@@ -41,7 +44,7 @@
 (defn member?
   "true if el is contained in this tree
   instead of doing different comparisons with eq and < at each tree node,
-  we use the <= operator to reduce the total number of operations (worst case)
+  we use the <= (leq) operator to reduce the total number of operations (worst case)
   from 2*treeDepth to treeDepth + 1"
   ([tree el]
    (member? tree el nil))
@@ -61,6 +64,7 @@
   skip if el already is in the tree"
   [tree el]
   (if (member? tree el)
+    ;; avoid copying
     tree
     (letfn [(helper [{:keys [left value right] :as tree} el]
               (if (nil? tree)
