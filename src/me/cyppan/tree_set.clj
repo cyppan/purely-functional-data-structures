@@ -1,6 +1,7 @@
 (ns me.cyppan.tree-set
   (:require [clojure.pprint :as pprint]
-            [clojure.walk :as walk]))
+            [clojure.walk :as walk]
+            [me.cyppan.protocols.orderable :as orderable]))
 
 ;; Usage
 (comment
@@ -13,18 +14,6 @@
   (member? t 10)
   (member? t 9)
   )
-
-;; ordering protocol used by the binary tree
-(defprotocol Ordered
-  (lt [a b] "true if a < b")
-  (eq [a b] "true if a == b")
-  (lte [a b] "true if a <= b"))
-
-(extend-protocol Ordered
-  Long
-  (eq [a b] (= a b))
-  (lt [a b] (< a b))
-  (lte [a b] (<= a b)))
 
 (defrecord TreeSet [left value right])
 
@@ -49,15 +38,15 @@
   ([tree el]
    (member? tree el nil))
   ([{:keys [left value right] :as tree} el eq-candidate]
-   (if (lte el value)
+   (if (orderable/lte el value)
      (if left
        (member? left el value)
-       (or (eq el value)
-           (eq el eq-candidate)))
+       (or (orderable/eq el value)
+           (orderable/eq el eq-candidate)))
      ; else el > value
      (if right
        (member? right el)
-       (eq el eq-candidate)))))
+       (orderable/eq el eq-candidate)))))
 
 (defn insert
   "returns a new tree with the el element inserted
@@ -69,7 +58,7 @@
     (letfn [(helper [{:keys [left value right] :as tree} el]
               (if (nil? tree)
                 (new-tree-set el)
-                (if (lt el value)
+                (if (orderable/lt el value)
                   (assoc tree :left (helper left el))
                   (assoc tree :right (helper right el)))))]
       (helper tree el))))

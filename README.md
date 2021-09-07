@@ -6,3 +6,4 @@ The book uses StandardML but I try to rewrite the described algorithms in idioma
 - [stack](https://github.com/cyppan/purely-functional-data-structures/blob/main/src/me/cyppan/stack.clj) (LIFO)
 - [tree set](https://github.com/cyppan/purely-functional-data-structures/blob/main/src/me/cyppan/tree_set.clj) (unbalanced binary tree)
 - [finite map](https://github.com/cyppan/purely-functional-data-structures/blob/main/src/me/cyppan/finite_map.clj) (unbalanced binary tree)
+- [leftist heap](https://github.com/cyppan/purely-functional-data-structures/blob/main/src/me/cyppan/leftist_heap.clj) (heap ordered binary tree with leftist property)
